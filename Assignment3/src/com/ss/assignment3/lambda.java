@@ -16,15 +16,15 @@ public class lambda {
 		arr.add("Melissa");
 		arr.add("Molly");
 	}
-	
+
 	private void reset() {
 		arr.clear();
+		arr.add("Molly");
 		arr.add("Burke");
 		arr.add("Egad");
 		arr.add("Eric");
 		arr.add("Flipe");
 		arr.add("Melissa");
-		arr.add("Molly");
 	}
 
 	public void sortLambda() {
@@ -33,16 +33,38 @@ public class lambda {
 		reset();
 		System.out.println();
 	}
-	
+
 	public void reverseLambda() {
 		arr.sort(Comparator.comparing(String::length).reversed());
 		arr.forEach(e -> System.out.println(e));
 		reset();
 		System.out.println();
 	}
-	
+
 	public void firstLetterLambda() {
 		arr.sort(Comparator.comparing(e -> e.charAt(0)));
+		arr.forEach(e -> System.out.println(e));
+		reset();
+		System.out.println();
+	}
+	
+	static Comparator<String> staticHelperMethod() {
+		return Comparator.comparing((String e) -> e.charAt(0) == 'E' || e.charAt(0) == 'e')
+		.reversed()
+		.thenComparing(e -> e.charAt(0));
+	}
+
+	public void firstLetterELambda() {
+		arr.sort(Comparator.comparing((String e) -> e.charAt(0) == 'E' || e.charAt(0) == 'e')
+				.reversed()
+				.thenComparing(e -> e.charAt(0)));
+		arr.forEach(e -> System.out.println(e));
+		reset();
+		System.out.println();
+	}
+	
+	public void firstletterEHelperLambda() {
+		arr.sort(staticHelperMethod());
 		arr.forEach(e -> System.out.println(e));
 		reset();
 		System.out.println();
@@ -53,6 +75,8 @@ public class lambda {
 		lb.sortLambda();
 		lb.reverseLambda();
 		lb.firstLetterLambda();
+		lb.firstLetterELambda();
+		lb.firstletterEHelperLambda();
 	}
 
 }
