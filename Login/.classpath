@@ -19,5 +19,10 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="C:/Users/Burke/ownCloud/SmoothStack/Resources/mockito-core-3.2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Burke/ownCloud/SmoothStack/Resources/byte-buddy-1.10.7.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Burke/ownCloud/SmoothStack/Resources/byte-buddy-agent-1.10.7.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Burke/ownCloud/SmoothStack/Resources/objenesis-3.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

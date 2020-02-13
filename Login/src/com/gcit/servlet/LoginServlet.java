@@ -1,5 +1,6 @@
 package com.gcit.servlet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -10,6 +11,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.gcit.dto.User;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * Servlet implementation class LoginServlet
@@ -42,14 +47,20 @@ public class LoginServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		System.out.println(username + " " + password);
-		if (username == null || password == null) {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		BufferedReader reader = request.getReader();
+		Gson gson = new Gson();
+		User usr = null;
+		try {
+			usr = gson.fromJson(reader, User.class);
+		} catch (JsonSyntaxException e) {
+			response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+			return;
+		}
+		if (usr == null || usr.getUsername() == null || usr.getPassword() == null) {
 			response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
 		}
-		else if (username.equals("burkemasles") && password.equals("smoothstack")) {
+		else if (usr.getUsername().equals("burkemasles") && usr.getPassword().equals("smoothstack")) {
 			response.setContentType("text/html");
 			PrintWriter out = response.getWriter();
 			out.print("<html><body>Username and Password Correct!!!</body></html>");
