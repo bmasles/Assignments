@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="papaparse.min.js"></script>
+    <style>
+        .pagination {
+            display: inline-block;
+        }
+
+        .pagination button {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+            border: 1px solid #ddd;
+        }
+
+        .pagination button.active {
+            background-color: #555555;
+            color: white;
+            border: 1px solid #4CAF50;
+        }
+
+        .pagination button:hover:not(.active) {
+            background-color: #ddd;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        Select a CSV file:
+        <input type="file" id="fileInput">
+    </div>
+    <pre id="main"></pre>
+    <table id="table">
+        <thead>
+            <th>Id</th>
+            <th>Book Title</th>
+            <th>Author</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <h4>Select the page you would like to view</h4>
+
+    <div class="pagination">
+        <button id="1" onclick="buttonClicked(1)">1</button>
+        <button id="2" onclick="buttonClicked(2)">2</button>
+        <button id="3" onclick="buttonClicked(3)">3</button>
+        <button id="4" onclick="buttonClicked(4)">4</button>
+        <button id="5" onclick="buttonClicked(5)">5</button>
+        <button id="6" onclick="buttonClicked(6)">6</button>
+    </div>
+    <script>
+        let data;
+        function buttonClicked(x) {
+            let table = document.getElementById("table");
+            let buttons = document.getElementsByTagName("button");
+            for (let index = 0; index < buttons.length; index++) {
+                buttons[index].className = "pagination";
+            }
+            let selection = document.getElementById(x);
+            let fileDisplayArea = document.getElementById('main');
+            selection.className = "active";
+            fileDisplayArea.innerText = "";
+            for (let index = 0; index < 6; index++) {
+                for (let index2 = 0; index2 < 3; index2++) {
+                    table.rows[index+1].cells[index2].innerText = data[6 * (x - 1) + index][index2];
+                }
+            }
+        }
+        window.onload = () => {
+            var fileInput = document.getElementById('fileInput');
+            fileInput.addEventListener('change', function (e) {
+                var file = fileInput.files[0];
+                Papa.parse(file, {
+                    complete: function (results) {
+                        console.log(results.data);
+                        data = results.data;
+                        buttonClicked(1);
+                    }
+                })
+            });
+        }
+    </script>
+</body>
+
+</html>
