@@ -2,13 +2,13 @@
 <html>
 
 <head>
+
+    <meta charset="UTF-8">
+
     <script src="papaparse.min.js"></script>
     <style>
-        .pagination {
-            display: inline-block;
-        }
 
-        .pagination button {
+        button {
             color: black;
             float: left;
             padding: 8px 16px;
@@ -17,13 +17,13 @@
             border: 1px solid #ddd;
         }
 
-        .pagination button.active {
+        button.active {
             background-color: #555555;
             color: white;
             border: 1px solid #4CAF50;
         }
 
-        .pagination button:hover:not(.active) {
+        button:hover:not(.active) {
             background-color: #ddd;
         }
 
@@ -40,7 +40,7 @@
 <body>
     <div>
         Select a CSV file:
-        <input type="file" id="fileInput">
+        <input type="file" id="fileInput"></input>
     </div>
     <pre id="main"></pre>
     <table id="table">
@@ -84,21 +84,23 @@
     </table>
     <h4>Select the page you would like to view</h4>
 
-    <div class="pagination">
+    <div>
+        <button id="backward" onclick="forwardBackward(-1)">&laquo;</button>
         <button id="1" onclick="buttonClicked(1)">1</button>
         <button id="2" onclick="buttonClicked(2)">2</button>
         <button id="3" onclick="buttonClicked(3)">3</button>
         <button id="4" onclick="buttonClicked(4)">4</button>
         <button id="5" onclick="buttonClicked(5)">5</button>
         <button id="6" onclick="buttonClicked(6)">6</button>
+        <button id="forward" onclick="forwardBackward(1)">&raquo;</button>
     </div>
     <script>
         let data;
         function buttonClicked(x) {
             let table = document.getElementById("table");
             let buttons = document.getElementsByTagName("button");
-            for (let index = 0; index < buttons.length; index++) {
-                buttons[index].className = "pagination";
+            for (button of buttons) {
+                button.className = "";
             }
             let selection = document.getElementById(x);
             let fileDisplayArea = document.getElementById('main');
@@ -106,9 +108,14 @@
             fileDisplayArea.innerText = "";
             for (let index = 0; index < 6; index++) {
                 for (let index2 = 0; index2 < 3; index2++) {
-                    table.rows[index+1].cells[index2].innerText = data[6 * (x - 1) + index][index2];
+                    table.rows[index + 1].cells[index2].innerText = data[6 * (x - 1) + index][index2];
                 }
             }
+        }
+        function forwardBackward(x) {
+            let currentSelection = Number(document.getElementsByClassName("active")[0].id);
+            if ((currentSelection != 1 && x == -1) || (currentSelection != 6 && x == 1))
+                buttonClicked(currentSelection + x);
         }
         window.onload = () => {
             var fileInput = document.getElementById('fileInput');
@@ -116,7 +123,6 @@
                 var file = fileInput.files[0];
                 Papa.parse(file, {
                     complete: function (results) {
-                        console.log(results.data);
                         data = results.data;
                         buttonClicked(1);
                     }
